@@ -1,0 +1,8 @@
+{
+    "name": "More Constraints",
+    "description": "Simple and extended constraints for Framer!",
+    "author": "Sebastian Bailey",
+    "require": "Constraints = require 'Constraints'",
+    "install": "Constraints.coffee",
+    "example": "snippet.coffee"
+}
