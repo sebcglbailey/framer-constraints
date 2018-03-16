@@ -99,7 +99,7 @@ setPinProps = (layer, key, object) ->
 # FUNCTIONS
 # ---------------------------------------
 
-Layer::setPins = (pins={}) ->
+Utils.setPins = (pins={}) ->
 	layer = @
 
 	for key, object of pins
@@ -109,7 +109,7 @@ Layer::setPins = (pins={}) ->
 	layer.layout()
 
 
-Layer::setConstraints = (constraints={}) ->
+Utils.setConstraints = (constraints={}) ->
 	layer = @
 
 	layerDefaults = _.assign defaultConstraints,
@@ -124,7 +124,7 @@ Layer::setConstraints = (constraints={}) ->
 	layer.states.default = layer.props
 
 
-Layer::pushParent = (options={}) ->
+Utils.pushParent = (options={}) ->
 	layer = @
 
 	if !layer.parent?
