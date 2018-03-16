@@ -40,6 +40,7 @@ layer.setConstraints
   right: 20
   top: 20
   aspectRatioLocked: true
+  maxWidth: 200
 ```
 
 #### Arguments
@@ -52,10 +53,14 @@ layer.setConstraints
 * `centerAnchorX` (0 - 1) – Ratio of where the layer sits within parent on X-axis. (Default: `null`)
 * `centerAnchorY` (0 - 1) – Ratio of where the layer sits within parent on Y-axis. (Default: `null`)
 * `aspectRatioLocked` (bool) – Keep the aspect ratio on resize. (Default: `false`)
+* `minWidth` – Minimum width for the layer. (Optional)
+* `maxWidth` – Maximum width for the layer. (Optional)
+* `minHeight` – Minimum height for the layer. (Optional)
+* `maxHeight` – Maximum height for the layer. (Optional)
 
 ### layer.constraints
 
-```coffeesceript
+```coffeescript
 layer.constraints =
   widthFactor: 0.8
   centerAnchorX: 0.5

@@ -1,4 +1,3 @@
-
 # UN-COMMENT EACH STEP IN ORDER TO SEE THE PROGRESSION OF THE EXAMPLE
 # (UN-COMMENT BY HIGHLIGHTING THE TEXT AND PRESSING CMD + /)
 
@@ -17,40 +16,42 @@ layer1.constraints =
 	height: 100
 	aspectRatioLocked: true
 
+# USING FUNCTION, - ALL POSSIBLE INPUTS
 
-###
-USING UTILS, - ALL POSSIBLE INPUTS
-
-Utils.setConstraints layer1,
-	left: 20, right: 20
-	top: 20, bottom: 20
-	widthFactor: 0.5, heightFactor: 0.5
-	centerAnchorX: 0.5, centerAnchorY: 0.5
-	width: 200, height: 200
-	aspectRatioLocked: false
-
-###
+# layer1.setConstraints
+# 	left: 20, right: 20
+# 	top: 20, bottom: 20
+# 	widthFactor: 0.5, heightFactor: 0.5
+# 	centerAnchorX: 0.5, centerAnchorY: 0.5
+# 	width: 200, height: 200
+# 	aspectRatioLocked: false
+#	minWidth: 200, minHeight: 200
+#	maxWidth: 400, maxHeight: 400
 
 
 # ----------------------------- STEP 2: PINNING
 
 # layer2 = new Layer
 # 	backgroundColor: "#ccafbd"
-# 
+# layer2.constraints =
+# 	minHeight: 200
 # layer2.pins =
 # 	y:
 # 		layer: layer1
 # 		value: 20
 # 	x:
 # 		layer: layer1
-#		side: "left"
+# 		side: "left"
 # 	width:
 # 		layer: layer1
-# 
-# ###
-# USING UTILS, - OTHER INPUTS
-# 
-# Utils.setPins layer2,
+# 	height:
+# 		layer: layer1
+
+
+
+# USING FUNCTION, - OTHER INPUTS
+
+# layer2.setPins
 # 	y:
 # 		layer: layer1
 # 		side: "top"
@@ -62,8 +63,6 @@ Utils.setConstraints layer1,
 # 	height:
 # 		layer: layer1
 # 		value: -100
-# 
-# ###
 
 
 # ----------------------------- STEP 3: PUSH PARENT
@@ -83,24 +82,23 @@ Utils.setConstraints layer1,
 # 	left: 10
 # 	right: 10
 # textLayer.autoSize = true
-# 
+
 # layer3.pins =
 # 	y:
 # 		layer: layer2
 # 		value: 20
 # 	x:
-#		layer: layer2
-#		side: "left"
+# 		layer: layer2
+# 		side: "left"
 # 	width: layer: layer2
-# 
-# 
+
 # textLayer.pushParent
 # 	direction: "down"
 # 	value: textLayer.constraints.top
-# 
+
 # textString = "This is a demo string that hopefully resizes the parent while it is animating in."
 # speed = 0.05
-# 
+
 # layer3.onTap ->
 # 	for i in [0..textString.length]
 # 		do (i) ->

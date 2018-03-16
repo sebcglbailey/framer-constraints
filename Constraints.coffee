@@ -12,6 +12,10 @@ defaultConstraints =
 	widthFactor: null
 	heightFactor: null
 	aspectRatioLocked: false
+	maxHeight: null
+	minHeight: null
+	maxWidth: null
+	minWidth: null
 
 
 # ---------------------------------------
@@ -57,6 +61,13 @@ getAddOnFromKey = (key) ->
 		when "x" then return "width"
 		when "y" then return "height"
 
+getKeyFromProp = (prop) ->
+	switch prop
+		when "maxY" then return "y"
+		when "maxX" then return "x"
+		when "x" then return prop
+		when "y" then return prop
+
 getRefFromDirection = (dir) ->
 	switch dir
 		when "down"
@@ -95,55 +106,71 @@ setPinProps = (layer, key, object) ->
 		object.layer.onChange object.addOn, ->
 			layer[key] = @[refProp] + object.value
 
+addMinMax = (layer, values) ->
+	{minWidth, maxWidth, minHeight, maxHeight} = values
+	
+	if minWidth? || maxWidth?
+		layer.onChange "width", ->
+			if minWidth? && @width <= minWidth then @width = minWidth
+			if maxWidth? && @width >= maxWidth then @width = maxWidth
+	if minHeight? || maxHeight?
+		layer.onChange "height", ->
+			if minHeight? && @height <= minHeight then @height = minHeight
+			if maxHeight? && @height >= maxHeight then @height = maxHeight
+
+
 # ---------------------------------------
 # FUNCTIONS
 # ---------------------------------------
 
 Layer::setPins = (pins={}) ->
-	layer = @
 
 	for key, object of pins
-		do (key, object) ->
-			setPinProps layer, key, object
+		do (key, object) =>
+			setPinProps @, key, object
 
-	layer.layout()
+	@layout()
 
 
 Layer::setConstraints = (constraints={}) ->
-	layer = @
 
 	layerDefaults = _.assign {}, [
 		defaultConstraints,
 		{
 			left: constraints.left || if constraints.centerAnchorX then null
 			top: constraints.top || if constraints.centerAnchorY then null
-			width: layer.width
-			height: layer.height
+			width: @width
+			height: @height
 		}
 	]
 
+	minMax = 
+		minWidth: constraints.minWidth
+		maxWidth: constraints.maxWidth
+		minHeight: constraints.minHeight
+		maxHeight: constraints.maxHeight
+	addMinMax @, minMax
 
-	layer.constraintValues = _.assign layerDefaults, constraints
+	@constraintValues = _.assign layerDefaults, constraints
 
-	layer.layout()
-	layer.states.default = layer.props
+	@layout()
+	@states.default = @props
 
 
 Layer::pushParent = (options={}) ->
-	layer = @
 
-	if !layer.parent?
+	if !@parent?
 		Utils.throwInStudioOrWarnInProduction "Layer must have a parent layer in order to increase it's size."
 
 	ref = getRefFromDirection options.direction
-	parent = layer.parent
+	parent = @parent
 
-	options.value ?= parent[ref.extra] - layer[ref.ref]
+	options.value ?= parent[ref.extra] - @[ref.ref]
 	options.direction ?= "down"
 
-	parent[ref.extra] = layer[ref.ref] + options.value
+	parent[ref.extra] = @[ref.ref] + options.value
 
 	for reference in [ref.pos, ref.extra]
-		do (reference) ->
-			layer.onChange reference, ->
-				parent[ref.extra] = layer[ref.ref] + options.value
+		do (reference) =>
+			@onChange reference, =>
+				parent[ref.extra] = @[ref.ref] + options.value
