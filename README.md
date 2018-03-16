@@ -7,6 +7,7 @@ Simple and Super Constraints for Framer!
 * [Constraints](#constraints)
 * [Pin](#pin)
 * [Push Parent](#push-parent)
+* [Layer Extension](#layer-extension)
 
 ## Installation
 
@@ -130,7 +131,26 @@ layer.pushParent
 * `value` (number) – The margin to add between the layer and the parent. (Default is the original margin upon calling the function).
 
 
+## Layer Extension
 
+Although it is not possible to add the properties in your initiation of a `Layer` in Framer, you can use the included `ConstraintLayer` class. This class is exactly the same as `Layer` except you can add `constraints`, `pins` and `pushParent` straight into the initialisation.
+
+```coffeescript
+layer = new ConstraintLayer
+  backgroundColor: "#0af"
+  constraints:
+    left: 20
+    right: 20
+    top: 20
+  pins:
+    y:
+      layer: referenceLayer
+      value: 20
+    width:
+      layer: referenceLayer
+  pushParent:
+    direction: "down"
+```
 
 
 

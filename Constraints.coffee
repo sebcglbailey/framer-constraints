@@ -174,3 +174,13 @@ Layer::pushParent = (options={}) ->
 		do (reference) =>
 			@onChange reference, =>
 				parent[ref.extra] = @[ref.ref] + options.value
+
+
+class exports.ConstraintsLayer extends Layer
+	constructor: (@options) ->
+		super @options
+		@constraints = @options.constraints || null
+		@pins = @options.pins || null
+
+		if @options.pushParent?
+			@pushParent @options.pushParent
