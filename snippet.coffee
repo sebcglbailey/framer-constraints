@@ -40,10 +40,10 @@ Utils.setConstraints layer1,
 # layer2.pins =
 # 	y:
 # 		layer: layer1
-# 		side: "bottom"
 # 		value: 20
 # 	x:
 # 		layer: layer1
+#		side: "left"
 # 	width:
 # 		layer: layer1
 # 
@@ -87,9 +87,10 @@ Utils.setConstraints layer1,
 # layer3.pins =
 # 	y:
 # 		layer: layer2
-# 		side: "bottom"
 # 		value: 20
-# 	x: layer: layer2
+# 	x:
+#		layer: layer2
+#		side: "left"
 # 	width: layer: layer2
 # 
 # 

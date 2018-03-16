@@ -23,7 +23,7 @@ Object.defineProperty(Layer.prototype, "constraints", {
 	get: -> return @_constraints
 	set: (value) ->
 		@_constraints = value
-		Utils.setConstraints @, value
+		@setConstraints value
 		@emit "change:constraints", value
 
 });
@@ -33,14 +33,10 @@ Object.defineProperty(Layer.prototype, "pins", {
 	get: -> return @_pins
 	set: (value) ->
 		@_pins = value
-		Utils.setPins @, value
+		@setPins value
 		@emit "change:pins", value
 
 });
-
-
-Layer::pushParent = (options) ->
-	Utils.pushParent @, options
 
 
 # ---------------------------------------
@@ -83,8 +79,10 @@ setPinProps = (layer, key, object) ->
 	if key.includes "max"
 		object.value = -object.value
 		object.addOn = getAddOnFromKey key
-	if key.includes "x" then object.side ?= "left"
-	if key.includes "y" then object.side ?= "top"
+	if key.includes "x" then object.side ?= "right"
+	if key.includes "maxX" then object.side ?= "left"
+	if key.includes "y" then object.side ?= "bottom"
+	if key.includes "maxY" then object.side ?= "top"
 	if object.side is "bottom" or object.side is "right"
 		object.addOn = getAddOnFromKey key
 
@@ -101,7 +99,8 @@ setPinProps = (layer, key, object) ->
 # FUNCTIONS
 # ---------------------------------------
 
-Utils.setPins = (layer, pins={}) ->
+Layer::setPins = (pins={}) ->
+	layer = @
 
 	for key, object of pins
 		do (key, object) ->
@@ -110,7 +109,9 @@ Utils.setPins = (layer, pins={}) ->
 	layer.layout()
 
 
-Utils.setConstraints = (layer, constraints={}) ->
+Layer::setConstraints = (constraints={}) ->
+	layer = @
+
 	layerDefaults = _.assign defaultConstraints,
 		left: constraints.left || if constraints.centerAnchorX then null
 		top: constraints.top || if constraints.centerAnchorY then null
@@ -123,7 +124,9 @@ Utils.setConstraints = (layer, constraints={}) ->
 	layer.states.default = layer.props
 
 
-Utils.pushParent = (layer, options={}) ->
+Layer::pushParent = (options={}) ->
+	layer = @
+
 	if !layer.parent?
 		Utils.throwInStudioOrWarnInProduction "Layer must have a parent layer in order to increase it's size."
 
